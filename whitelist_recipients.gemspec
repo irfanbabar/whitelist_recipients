@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   Only mentioned email addresses in environment files can receive mails from application.'
   spec.homepage = 'https://github.com/irfanbabar/whitelist_recipients'
   spec.license = 'MIT'
-  spec.required_ruby_version = '>= 2.6.0'
+  spec.required_ruby_version = '> 2.3'
 
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = 'https://github.com/irfanbabar/whitelist_recipients'
