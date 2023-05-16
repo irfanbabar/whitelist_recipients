@@ -10,15 +10,13 @@ Gem::Specification.new do |spec|
 
   spec.summary = 'Whitelist your ActionMailer Recipients'
   spec.description = 'This gem is use to whitelist the ActionMailer Recipients (To), CC, BCC. Only mentioned email addresses in environment files can receive mails from application.'
-  spec.homepage = 'https://google.com'
+  spec.homepage = 'https://github.com/irfanbabar/whitelist_recipients'
   spec.license = 'MIT'
   spec.required_ruby_version = '>= 2.6.0'
 
-  spec.metadata['allowed_push_host'] = "TODO: Set to your gem server 'https://example.com'"
-
   spec.metadata['homepage_uri'] = spec.homepage
-  spec.metadata['source_code_uri'] = 'https://google.com'
-  spec.metadata['changelog_uri'] = 'https://google.com'
+  spec.metadata['source_code_uri'] = 'https://github.com/irfanbabar/whitelist_recipients'
+  spec.metadata['changelog_uri'] = 'https://github.com/irfanbabar/whitelist_recipients/blob/main/CHANGELOG.md'
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
