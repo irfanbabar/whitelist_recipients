@@ -8,8 +8,9 @@ It is very simple tool to whitelist action mailer recipients, CC and BCC. This i
 
 ## Compatibility
 
-**Ruby:** > 2.3
-**Rails:** >= 5
+- **Ruby:** > 2.3
+
+- **Rails:** >= 5
 
 ## Installation
 
@@ -36,9 +37,7 @@ It will generate a file **whitelist_recipients.rb** in initializer folder. You d
 ```
     if Rails::VERSION::MAJOR > 6
         Rails.application.configure do
-            if Rails.env.staging?
             config.action_mailer.interceptors = [WhitelistRecipients::MailerInterceptor]
-            end
         end
     else
         ActionMailer::Base.register_interceptor(WhitelistRecipients::MailerInterceptor)
