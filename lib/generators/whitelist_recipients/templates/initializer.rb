@@ -7,4 +7,3 @@ if Rails::VERSION::MAJOR > 6
 else
   ActionMailer::Base.register_interceptor(WhitelistRecipients::MailerInterceptor)
 end
-
