@@ -6,6 +6,11 @@ It is very simple tool to whitelist action mailer recipients, CC and BCC. This i
 - Whitelist not only recipients but cc and bcc as well.
 - Can enable/disable it in any environment.
 
+## Compatibility
+
+**Ruby:** > 2.3
+**Rails:** >= 5
+
 ## Installation
 
 Whitelist Recipients installation is simple and pretty standard.
