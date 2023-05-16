@@ -1,34 +1,95 @@
-# WhitelistRecipients
+# Whitelist Recipients
 
-TODO: Delete this and the text below, and describe your gem
+It is very simple tool to whitelist action mailer recipients, CC and BCC. This is specially helpful in staging environment, where you have replica of production environment including databases and you dont want to send mails to actual customers.
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/whitelist_recipients`. To experiment with that code, run `bin/console` for an interactive prompt.
+- Simple to use.
+- Whitelist not only recipients but cc and bcc as well.
+- Can enable/disable it in any environment.
 
 ## Installation
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
+Whitelist Recipients installation is simple and pretty standard.
 
-Install the gem and add to the application's Gemfile by executing:
+```
+    $ gem install whitelist_recipients
+```
 
-    $ bundle add UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
+If you are using **Rails** and want to install through **bundler**, then just add this line to your **Gemfile**.
 
-If bundler is not being used to manage dependencies, install the gem by executing:
+```
+    gem 'whitelist_recipients'
+```
 
-    $ gem install UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
+Now generate initializer file by running following command.
+
+```
+    $ rails g whitelist_recipients:install
+```
+
+It will generate a file **whitelist_recipients.rb** in initializer folder. You dont have to do anything here.
+
+```
+    if Rails::VERSION::MAJOR > 6
+        Rails.application.configure do
+            if Rails.env.staging?
+            config.action_mailer.interceptors = [WhitelistRecipients::MailerInterceptor]
+            end
+        end
+    else
+        ActionMailer::Base.register_interceptor(WhitelistRecipients::MailerInterceptor)
+    end
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+Add following information in any of require environment files.
 
-## Development
+```
+    config.action_mailer.smtp_settings = {
+      :user_name => '<username>',
+      :password => "<password>",
+      :domain => '<example.com>',
+      :address => '<smtp.dummy.net>',
+      :port => <port>,
+      :whitelist_email_addresses => %w[john@example.com],    # gem property
+      :whitelist_mailer_cc => %w[johnny@example.com],           # gem property
+      :whitelist_mailer_bcc => %w[johnnybravo@example.com] # gem property
+  }
+```
 
-After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+Now your require environment will send mail to above mentioned users. if recipient has different email address in action mailer function, then e-mail wont sent to them.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+## Key Notes
+
+- If you don't add any of the require property in smpt_settings then, environment can send mails to any user.
+- If you put **empty array** inside **whitelist_email_addresses** property, it means, ActionMailer is disable, mail wont be sent to users.
+- If whitelist_email_addresses has value, but **whitelist_mailer_cc** or **whitelist_mailer_bcc** are empty array. it means, cc and bcc wont send to require email addresses even if you have added value in action mailer function
+
+```
+	# john@example.com will receive mail (if added in whitelist_email_addresses)
+    # johnny@example.com, johnnybravo@example.com will not receive any mail.
+
+	mail(to: 'john@example.com', cc: 'johnny@example.com', bcc: 'johnnybravo@example.com')
+```
+
+- If you want to whitelist only **cc** or **bcc** then put property inside smtp_setting but don't put **whitelist_email_addresses** property. like this
+
+```
+    config.action_mailer.smtp_settings = {
+      :user_name => '<username>',
+      :password => "<password>",
+      :domain => '<example.com>',
+      :address => '<smtp.dummy.net>',
+      :port => <port>,
+      :whitelist_mailer_cc => %w[johnny@example.com],      # gem property
+           # OR
+      :whitelist_mailer_bcc => %w[johnnybravo@example.com] # gem property
+  }
+```
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/whitelist_recipients. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/whitelist_recipients/blob/main/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/irfanbabar/whitelist_recipients. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/irfanbabar/whitelist_recipients/blob/main/CODE_OF_CONDUCT.md).
 
 ## License
 
@@ -36,4 +97,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the WhitelistRecipients project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/whitelist_recipients/blob/main/CODE_OF_CONDUCT.md).
+Everyone interacting in the Whitelist Recipients project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/irfanbabar/whitelist_recipients/blob/main/CODE_OF_CONDUCT.md/blob/main/CODE_OF_CONDUCT.md).
