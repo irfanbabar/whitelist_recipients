@@ -5,6 +5,7 @@ module MailerInterceptorModule
   # whitelist email addresses
   def delivering_email(message)
     return unless message.perform_deliveries
+    return if Rails.application.config.action_mailer&.smtp_settings&.blank?
 
     smtp_settings = Rails.application.config.action_mailer.smtp_settings
     whitelist = smtp_settings[:whitelist_email_addresses]
